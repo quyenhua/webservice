@@ -1,17 +1,31 @@
 {
   "name": "webservice",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Quyen Hua",
   "license": "ISC",
+  "engines": {
+    "node": "6.10.2"
+  },
   "dependencies": {
     "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.2",
+    "cool-ascii-faces": "1.3.4",
     "express": "^4.15.4",
     "request": "^2.81.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quyenhua/webservice.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/quyenhua/webservice/issues"
+  },
+  "homepage": "https://github.com/quyenhua/webservice#readme",
+  "description": ""
 }
