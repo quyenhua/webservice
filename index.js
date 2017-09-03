@@ -27,10 +27,10 @@ app.get('/list/slider', function (req, res, next) {
 	});
 });
 
-app.get('/song-top', function (req, res) {
+app.get('/list/song-top', function (req, res) {
 	var topList = {};
 	async.parallel([
-		function callback() {
+		function (callback) {
 			list.getSongTop(urlConstants.TOP_SONG_VIET, function (err, data) {
 				if (err) {
 					callback(err);
@@ -40,7 +40,7 @@ app.get('/song-top', function (req, res) {
 				}
 			});
 		},
-		function callback() {
+		function (callback) {
 			list.getSongTop(urlConstants.TOP_SONG_AUMY, function (err, data) {
 				if (err) {
 					callback(err);
@@ -50,7 +50,7 @@ app.get('/song-top', function (req, res) {
 				}
 			});
 		},
-		function callback() {
+		function (callback) {
 			list.getSongTop(urlConstants.TOP_SONG_HAN, function (err, data) {
 				if (err) {
 					callback(err);
@@ -67,6 +67,110 @@ app.get('/song-top', function (req, res) {
 		} else {
 			res.json(topList);
 			console.log(topList);
+		}
+	});
+});
+
+app.get('/list/album-hot', function (req, res) {
+	list.getAlbumHot(function (err, data) {
+		if (err) {
+			res.json(err);
+			console.log(err);
+		} else {
+			res.json(data);
+			console.log(data);
+		}
+	});
+});
+
+app.get('/list/mv-hot', function (req, res) {
+	list.getListMVHot(function (err, data) {
+		if (err) {
+			res.json(errCode.errCode());
+			console.log(err);
+		} else {
+			res.json(data);
+			console.log(data);
+		}
+	});
+});
+
+app.get('/list/mv-top', function (req, res) {
+	var topList = {};
+	async.parallel([
+		function (callback) {
+			list.getListMVTop(urlConstants.TOP_MV_VIET, function (err, data) {
+				if (err) {
+					callback(err);
+				} else {
+					topList.topMVViet = data;
+					callback(null);
+				}
+			});
+		},
+		function (callback) {
+			list.getListMVTop(urlConstants.TOP_MV_AUMY, function (err, data) {
+				if (err) {
+					callback(err);
+				} else {
+					topList.topMVAuMy = data;
+					callback(null);
+				}
+			});
+		},
+		function (callback) {
+			list.getListMVTop(urlConstants.TOP_MV_HAN, function (err, data) {
+				if (err) {
+					callback(err);
+				} else {
+					topList.topMVKorea = data;
+					callback(null);
+				}
+			});
+		}
+	], function (err) {
+		if (err) {
+			res.json(err);
+			console.log(err);
+		} else {
+			res.json(topList);
+			console.log(topList);
+		}
+	});
+});
+
+app.get('/list/song-new-singer', function (req, res) {
+	list.getListSongNewSinger(function (err, data) {
+		if (err) {
+			res.json(err);
+			console.log(err);
+		} else {
+			res.json(data);
+			console.log(data);
+		}
+	});
+});
+
+app.get('/list/topic', function (req, res) {
+	list.getListTopic(function (err, data) {
+		if (err) {
+			res.json(err);
+			console.log(err);
+		} else {
+			res.json(data);
+			console.log(data);
+		}
+	});
+});
+
+app.get('/list/new-song', function (req, res) {
+	list.getListNewSong(function (err, data) {
+		if (err) {
+			res.json(err);
+			console.log(err);
+		} else {
+			res.json(data);
+			console.log(data);
 		}
 	});
 });
