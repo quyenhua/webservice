@@ -1,7 +1,13 @@
 var app = require('express')();
+app.set('view engine', 'ejs');
+app.set('views', './views');
 var cool = require('cool-ascii-faces');
 var dataList = require('./public/data-list.js');
 var list = dataList.getList;
+
+app.get('/', function (req, res) {
+	res.render('index');
+});
 
 app.get('/listSlider', function (req, res, next) {
 	list.getSlider(function (err, data) {
