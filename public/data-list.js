@@ -206,6 +206,48 @@ var getList = {
 	}
 };
 
+var getSourceSong = {
+	getSongInfo: function(url, callback) {
+		request(url, function (err, response, body) {
+			if (err) {
+				callback(err);
+			} else {
+				var $ = cheerio.load(body);
+				var titleAndSong = [];
+				var div = $(body).find('div.name_title');
+				var title = div.find('h1').text();
+				var singers = [];
+				var singerHTML = div.find('h2.name-singer');
+				singerHTML.find('a').each(function (i, e) {
+					var singer = {
+						singerName: $(this).text(),
+						singerLink: e['attribs']['href']
+					};
+					singers[i] = singer;
+				});
+				var key = url.split('.')[3];
+				var videoHTML = div.find('div.box-link-songmv');
+				var videoLink;
+				var karaokeLink;
+				if (videoHTML) {
+					videoLink = videoHTML.find('a.btn-to-mv').attr('href');
+					karaokeLink = videoHTML.find('a.btn-best-karaoke').attr('href');
+				}
+				var infomation = {
+					title: title,
+					singers: singers,
+					key: key,
+					href: url,
+					videoLink: videoLink,
+					karaokeLink: karaokeLink
+				};
+				console.log(JSON.stringify(infomation));
+				callback(null, JSON.stringify(infomation));
+			}
+		});
+	}
+};
+
 function _getTopInfomation (body) {
 	var $ = cheerio.load(body);
 	var listAll = [];
@@ -214,7 +256,6 @@ function _getTopInfomation (body) {
 		var titleForSong = $(this).find('a.name_song');
 		var title = titleForSong.text();
 		var href = titleForSong.attr('href');
-		var id = href.split('.')[3];
 
 		// Get singer list for a song
 		var singersForSong = $(this).find('a.name_singer');
@@ -231,7 +272,6 @@ function _getTopInfomation (body) {
 			title: title,
 			singers: singers,
 			img: img,
-			key: id,
 			href: href
 		}
 		listAll[i] = listJson;
@@ -240,5 +280,6 @@ function _getTopInfomation (body) {
 }
 
 module.exports = {
-	getList
+	getList,
+	getSourceSong
 };

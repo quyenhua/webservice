@@ -5,6 +5,7 @@ var async = require('async');
 
 var dataList = require('./public/data-list.js');
 var list = dataList.getList;
+var sourceSong = dataList.getSourceSong;
 
 var errCode = require('./public/err-log.js');
 var urlConstants = require('./constants/url-constant.js');
@@ -173,6 +174,19 @@ app.get('/list/new-song', function (req, res) {
 			console.log(data);
 		}
 	});
+});
+
+app.get('/song/song-info/:url', function (req, res, next) {
+	// list.getSlider(req.params.url, function (err, data) {
+	// 	if (err) {
+	// 		res.json(errCode.errCode());
+	// 		console.log(err);
+	// 	} else {
+	// 		res.json(data);
+	// 		console.log(data);
+	// 	}
+	// });
+	console.log(req.params.url);
 });
 
 app.listen(port);
